@@ -128,15 +128,19 @@ def fetch_pokemon(pokemon_name: str) -> str:
 
 ### Error Handling
 
+- Wrap API calls in try-except blocks and print errors for debugging
 - Return descriptive error strings for expected failures (API errors, not found, etc.)
-- Let exceptions propagate for unexpected failures
 - Check HTTP status codes and return meaningful error messages
 
 Example:
 ```python
-r = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}/")
-if r.status_code != 200:
-    return f"Error fetching pokémon {pokemon_name}: HTTP status code {r.status_code}"
+try:
+    r = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}/")
+    if r.status_code != 200:
+        return f"Error fetching pokémon {pokemon_name}: HTTP status code {r.status_code}"
+except Exception as e:
+    print(f"Error fetching pokémon {pokemon_name}: {e}")
+    return f"Error fetching pokémon {pokemon_name}: {e}"
 ```
 
 ### Code Comments
@@ -168,6 +172,7 @@ ask-ollama/
 ├── main.py           # Main application entry point
 ├── pyproject.toml    # Project configuration and dependencies
 ├── README.md         # Project documentation
+├── LICENSE.txt       # MIT License
 └── AGENTS.md         # This file
 ```
 
