@@ -172,21 +172,35 @@ def fetch_pokemon_stat(stat_name: str) -> str:
         return f"Error fetching stat {stat_name}: {e}"
 
 
-MODEL_CONFIGS: dict[str, tuple[str, int]] = {
-    "llama": ("llama3.2:3b-32k", 32768),
-    "qwen": ("qwen3-coder:30b-64k", 65536),
-    "mistral": ("mistral-small3.2:24b-32k", 32768),
-    "lfm": ("lfm2.5-thinking:1.2b-32k", 32768),
+MODEL_CONFIGS: dict[str, dict] = {
+    "llama": {
+        "model": "llama3.2:3b-32k",
+        "num_ctx": 32768,
+    },
+    "qwen": {
+        "model": "qwen3-coder:30b-64k",
+        "num_ctx": 65536,
+    },
+    "mistral": {
+        "model": "mistral-small3.2:24b-32k",
+        "num_ctx": 32768,
+    },
+    "lfm": {
+        "model": "lfm2.5-thinking:1.2b-32k",
+        "num_ctx": 32768,
+        "temperature": 0.1,
+        "top_k": 50,
+        "top_p": 0.1,
+        "repeat_penalty": 1.05,
+    },
 }
 
 
 def create_model(name: str, temperature: float = 0.7) -> ChatOllama:
-    model_name, num_ctx = MODEL_CONFIGS[name]
-    return ChatOllama(
-        model=model_name,
-        temperature=temperature,
-        num_ctx=num_ctx,
-    )
+    config = MODEL_CONFIGS[name].copy()
+    if "temperature" not in config:
+        config["temperature"] = temperature
+    return ChatOllama(**config)
 
 
 agent = create_agent(
@@ -203,7 +217,7 @@ agent = create_agent(
 )
 
 
-def main():
+def main() -> None:
     result = agent.invoke(
         {
             "messages": [
