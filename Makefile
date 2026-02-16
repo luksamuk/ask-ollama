@@ -1,16 +1,16 @@
 .PHONY: run install lint format clean install-model
 
 run:
-	python main.py
+	uv run main.py
 
 install:
-	pip install -e .
+	uv sync
 
 lint:
-	ruff check .
+	uv run ruff check .
 
 format:
-	ruff format .
+	uv run ruff format .
 
 clean:
 	rm -rf __pycache__ .ruff_cache .pytest_cache
