@@ -30,14 +30,26 @@ MODEL_CONFIGS: dict[str, dict] = {
     "llama": {
         "model": "llama3.2:3b-32k",
         "num_ctx": 32768,
+        "temperature": 0.2,
+        "top_k": 40,
+        "top_p": 0.9,
+        "repeat_penalty": 1.1,
     },
     "qwen": {
         "model": "qwen3-coder:30b-64k",
         "num_ctx": 65536,
+        "temperature": 0.2,
+        "top_k": 40,
+        "top_p": 0.9,
+        "repeat_penalty": 1.1,
     },
     "mistral": {
         "model": "mistral-small3.2:24b-32k",
         "num_ctx": 32768,
+        "temperature": 0.2,
+        "top_k": 40,
+        "top_p": 0.9,
+        "repeat_penalty": 1.1,
     },
     "lfm": {
         "model": "lfm2.5-thinking:1.2b-32k",
