@@ -38,7 +38,9 @@ def fetch_pokemon(pokemon_name: str) -> str:
     try:
         r = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}/")
         if r.status_code != 200:
-            return f"Error fetching pokémon {pokemon_name}: HTTP status code {r.status_code}"
+            msg = f"Error fetching pokémon {pokemon_name}: HTTP status code {r.status_code}"
+            print(f"DEBUG: {msg}")
+            return msg
 
         j = r.json()
 
@@ -64,8 +66,9 @@ Stats:
         print("DEBUG: Fetching done.")
         return message
     except Exception as e:
-        print(f"Error fetching pokémon {pokemon_name}: {e}")
-        return f"Error fetching pokémon {pokemon_name}: {e}"
+        msg = f"Error fetching pokémon {pokemon_name}: {e}"
+        print(f"DEBUG: {msg}")
+        return msg
 
 
 def fetch_pokemon_ability(ability_name: str) -> str:
@@ -221,7 +224,7 @@ def main() -> None:
     result = agent.invoke(
         {
             "messages": [
-                HumanMessage("What can you tell me about the Pokémon Giratina?"),
+                HumanMessage("What can you tell me about the Pokémon Gyarados?"),
             ],
         }
     )
