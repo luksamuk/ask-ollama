@@ -16,31 +16,40 @@ This is a Python CLI application that uses LangChain with Ollama to create an AI
 ### Setup
 
 ```bash
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -e .
-# Or with uv:
+# Install dependencies with uv
 uv sync
+```
+
+Or use Makefile:
+
+```bash
+make install
 ```
 
 ### Running the Application
 
 ```bash
-python main.py
+uv run main.py
+```
+
+Or:
+
+```bash
+make run
 ```
 
 ### Linting and Type Checking
 
 ```bash
-# If using ruff (recommended)
-ruff check .
-ruff format . --check
+uv run ruff check .
+uv run ruff format . --check
+```
 
-# If using mypy for type checking
-mypy .
+Or:
+
+```bash
+make lint
+make format
 ```
 
 ### Testing
@@ -170,7 +179,11 @@ def fetch_pokemon(pokemon_name: str) -> str:
 ```
 ask-ollama/
 ├── main.py           # Main application entry point
+├── pokemon.py        # Pokémon-related tool functions
+├── models/           # Ollama modelfiles
+│   └── lfm2.5-thinking.modelfile
 ├── pyproject.toml    # Project configuration and dependencies
+├── Makefile          # Build/run/lint commands
 ├── README.md         # Project documentation
 ├── LICENSE.txt       # MIT License
 └── AGENTS.md         # This file
@@ -202,6 +215,7 @@ When working with APIs:
 
 ## Notes
 
-- The application is designed for CLI usage with Portuguese language prompts
+- The application is designed for CLI usage
 - The agent uses a local Ollama model (configure model name in `main.py`)
-- System prompts instruct the AI to be concise and provide code when possible
+- System prompts instruct the AI to respond in the user's language
+- Use `make install-model` to create the lfm2.5-thinking model
